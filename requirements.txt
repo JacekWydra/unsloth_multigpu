@@ -1,0 +1,6 @@
+unsloth>=2025.5.7
+bitsandbytes>=0.43.0
+pandas
+numpy
+datasets
+pydantic
