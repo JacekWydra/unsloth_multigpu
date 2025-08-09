@@ -33,7 +33,7 @@ pretrained_model_config:
   max_seq_length: 8192
   load_in_4bit: true
 dataset_config:
-  dataset_module_name: two_tasks_instruct_dataset_llama
+  use_debug_dataset: false  # Set to true for testing with debug dataset
   validation_data_path: /path/to/validation/data.json
   training_data_path: /path/to/training/data.json
   instruction_part: "<|start_header_id|>user<|end_header_id|>\n\n"
