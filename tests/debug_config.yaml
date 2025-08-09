@@ -1,0 +1,39 @@
+train_on_responses: true  # Test train_on_responses functionality
+devices: [0]  # Single GPU for testing, change to [0, 1] for multi-GPU
+trainer_config:
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 1
+  num_train_epochs: 1
+  max_steps: 3  # Only run 3 steps for quick testing
+  learning_rate: 2e-4
+  warmup_steps: 1
+  fp16: true
+  bf16: false
+  logging_steps: 1
+  optim: adamw_8bit
+  lr_scheduler_type: constant
+  seed: 42
+  save_strategy: "no"  # Don't save checkpoints for debug
+  output_dir: ./debug_output
+  run_name: debug_test
+  per_device_eval_batch_size: 1
+peft_config:
+  r: 8  # Smaller rank for faster testing
+  target_modules: ["q_proj", "v_proj"]  # Fewer modules for speed
+  lora_alpha: 16
+  lora_dropout: 0
+  bias: none
+  use_gradient_checkpointing: false  # Disable for speed
+  random_state: 42
+  use_rslora: false
+pretrained_model_config:
+  model_name: unsloth/Llama-3.2-1B-Instruct  # Smallest model for testing
+  max_seq_length: 512  # Short sequence for speed
+  load_in_4bit: true
+dataset_config:
+  use_debug_dataset: true  # Use debug dataset
+  training_data_path: /dummy/path/train.json
+  validation_data_path: /dummy/path/val.json
+  # These mark where instruction starts and where response starts for train_on_responses
+  instruction_part: "<|start_header_id|>user<|end_header_id|>\n\n"
+  response_part: "<|start_header_id|>assistant<|end_header_id|>\n\n"
