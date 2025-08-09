@@ -97,7 +97,8 @@ class TrainingLogCapture:
         self.logger.info(f"Stopping training log capture. Status: {status}")
 
         # Try to update MLflow run ID one last time before stopping
-        self.update_mlflow_run_id()
+        # TODO: Implement update_mlflow_run_id() method
+        # self.update_mlflow_run_id()
 
         # Restore original streams
         if self.capture_stdout and self.original_stdout:
