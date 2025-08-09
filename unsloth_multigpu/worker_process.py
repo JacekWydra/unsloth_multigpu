@@ -81,10 +81,10 @@ def run_custom_training(gpu_id: int, rank: int, world_size: int) -> bool:
     from unsloth_multigpu.metrics.metrics import MetricsComputer
     from unsloth_multigpu.utils import load_training_config
     from unsloth_multigpu.data_model.data_model import TrainingConfig
-    from unsloth_multigpu.datasets.dataset import get_training_dataset
+    from unsloth_multigpu.dataset.select_dataset import get_training_dataset
     
     def _load_dataset(config: TrainingConfig, tokenizer: AutoTokenizer) -> Dataset:
-        logger.info(f"Loading dataset from module: {config.dataset_config.dataset_module_name}")
+        logger.info("Loading training dataset...")
         dataset = get_training_dataset(config.dataset_config, tokenizer)
         return dataset["train"], dataset["validation"]
 
@@ -245,7 +245,7 @@ def run_custom_training(gpu_id: int, rank: int, world_size: int) -> bool:
             logger.info("Created UnslothTrainer for single GPU training")
 
         # Apply train_on_responses_only if needed
-        if training_config.train_on_completions:
+        if training_config.train_on_responses:
             logger.info("=== APPLYING train_on_responses_only ===")
             # Debug: Log dataset structure before train_on_responses_only
             logger.info(

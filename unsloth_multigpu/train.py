@@ -184,7 +184,7 @@ def start_custom_worker_subprocess(
     Returns:
         Subprocess.Popen object for the started worker process
     """
-    worker_script = os.path.join(os.path.dirname(__file__), "custom_worker_process.py")
+    worker_script = os.path.join(os.path.dirname(__file__), "worker_process.py")
 
     cmd = [
         sys.executable,
