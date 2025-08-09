@@ -1,0 +1,41 @@
+train_on_responses: true  # Test multi-GPU train_on_responses functionality
+devices: [0, 1, 2, 3]  # 4-GPU configuration
+trainer_config:
+  per_device_train_batch_size: 1  # Conservative for 4-GPU scaling test
+  gradient_accumulation_steps: 4  # Test gradient accumulation across 4 GPUs
+  num_train_epochs: 1
+  max_steps: 12  # More steps to validate 4-GPU coordination
+  learning_rate: 2e-4
+  warmup_steps: 3
+  fp16: true
+  bf16: false  # Use fp16 for broader GPU compatibility
+  logging_steps: 1
+  optim: adamw_8bit
+  lr_scheduler_type: constant
+  seed: 42
+  save_strategy: "no"  # Don't save checkpoints for testing
+  output_dir: ./test_4gpu_output
+  run_name: multigpu_4gpu_test
+  per_device_eval_batch_size: 1
+  dataloader_num_workers: 4  # Optimize for 4-GPU setup
+  ddp_find_unused_parameters: false  # Optimize DDP performance
+peft_config:
+  r: 8  # Smaller rank for faster testing
+  target_modules: ["q_proj", "v_proj"]  # Fewer modules for speed
+  lora_alpha: 16
+  lora_dropout: 0
+  bias: none
+  use_gradient_checkpointing: false  # Disable for speed during testing
+  random_state: 42
+  use_rslora: false
+pretrained_model_config:
+  model_name: unsloth/Llama-3.2-1B-Instruct  # Small model for testing
+  max_seq_length: 512  # Short sequence for speed
+  load_in_4bit: true
+dataset_config:
+  use_debug_dataset: true  # Use debug dataset for testing
+  training_data_path: /dummy/path/train.json
+  validation_data_path: /dummy/path/val.json
+  # Instruction and response markers for train_on_responses
+  instruction_part: "<|start_header_id|>user<|end_header_id|>\n\n"
+  response_part: "<|start_header_id|>assistant<|end_header_id|>\n\n"
