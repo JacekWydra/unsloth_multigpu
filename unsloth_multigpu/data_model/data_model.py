@@ -33,10 +33,10 @@ class PEFTConfig(BaseModel):
 
 
 class DatasetConfig(BaseModel):
-    dataset_module_name: str = "llama_instruct"
+    use_debug_dataset: bool = True  # Use debug dataset for testing
     unsloth_chat_template: str | None = None
-    training_data_path: str
-    validation_data_path: str
+    training_data_path: str = "/path/to/train.json"  # Path to training data
+    validation_data_path: str = "/path/to/val.json"  # Path to validation data
     # if train on responses is True
     instruction_part: str | None = None
     response_part: str | None = None
