@@ -174,3 +174,9 @@ wandb/
 
 # MLflow
 mlruns/
+# Claude Code files
+.claude/
+CLAUDE.md
+
+# Unsloth cache
+unsloth_compiled_cache/
